@@ -4,10 +4,6 @@ on:
   workflow_dispatch:
   pull_request:
   push:
-    # trying and staging branches are for Bors config
-    branches:
-      - trying
-      - staging
 
 env:
   CARGO_TERM_COLOR: always
