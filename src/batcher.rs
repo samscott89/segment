@@ -21,12 +21,12 @@ const MAX_BATCH_SIZE: usize = 1024 * 512;
 /// let client = HttpClient::default();
 ///
 /// for i in 0..100 {
-///     let msg = BatchMessage::Track(Track {
+///     let msg = Track {
 ///         user: User::UserId { user_id: format!("user-{}", i) },
 ///         event: "Example".to_owned(),
 ///         properties: json!({ "foo": "bar" }),
 ///         ..Default::default()
-///     });
+///     };
 ///
 ///     // Batcher returns back ownership of a message if the internal buffer
 ///     // would overflow.
@@ -79,7 +79,8 @@ impl Batcher {
     ///
     /// Returns an error if the message is too large to be sent to Segment's
     /// API.
-    pub fn push(&mut self, msg: BatchMessage) -> Result<Option<BatchMessage>> {
+    pub fn push(&mut self, msg: impl Into<BatchMessage>) -> Result<Option<BatchMessage>> {
+        let msg: BatchMessage = msg.into();
         let size = serde_json::to_vec(&msg)?.len();
         if size > MAX_MESSAGE_SIZE {
             return Err(Error::MessageTooLarge);
@@ -139,15 +140,15 @@ mod tests {
 
     #[test]
     fn test_bad_message_size() {
-        let batch_msg = BatchMessage::Track(Track {
+        let batch_msg = Track {
             user: User::UserId {
                 user_id: String::from_utf8(vec![b'a'; 1024 * 33]).unwrap(),
             },
             ..Default::default()
-        });
+        };
 
         let mut batcher = Batcher::new(None);
-        let result = batcher.push(batch_msg.into());
+        let result = batcher.push(batch_msg);
 
         let err = result.err().unwrap();
         assert!(err.to_string().contains("message too large"));
@@ -155,17 +156,17 @@ mod tests {
 
     #[test]
     fn test_max_buffer() {
-        let batch_msg = BatchMessage::Track(Track {
+        let batch_msg = Track {
             user: User::UserId {
                 user_id: String::from_utf8(vec![b'a'; 1024 * 30]).unwrap(),
             },
             ..Default::default()
-        });
+        };
 
         let mut batcher = Batcher::new(None);
         let mut result = Ok(None);
         for _i in 0..20 {
-            result = batcher.push(batch_msg.clone().into());
+            result = batcher.push(batch_msg.clone());
             dbg!(&result);
             if result.is_ok() && result.as_ref().ok().unwrap().is_some() {
                 break;
@@ -173,6 +174,6 @@ mod tests {
         }
 
         let msg = result.ok().unwrap();
-        assert_eq!(batch_msg, msg.unwrap());
+        assert_eq!(BatchMessage::from(batch_msg), msg.unwrap());
     }
 }
