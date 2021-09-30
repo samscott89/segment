@@ -51,9 +51,9 @@ const MAX_BATCH_SIZE: usize = 1024 * 512;
 /// If this delay is a concern, it is recommended that you periodically flush
 /// the batcher on your own by calling `into_message`.
 pub struct Batcher {
-    buf: Vec<BatchMessage>,
-    byte_count: usize,
-    context: Option<Value>,
+    pub(crate) buf: Vec<BatchMessage>,
+    pub(crate) byte_count: usize,
+    pub(crate) context: Option<Value>,
 }
 
 impl Batcher {
