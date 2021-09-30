@@ -1,8 +1,8 @@
 //! Low-level HTTP bindings to the Segment tracking API.
 
-use crate::client::Client;
-use crate::errors::Result;
-use crate::message::Message;
+use crate::Client;
+use crate::Message;
+use crate::Result;
 use std::time::Duration;
 
 /// A client which synchronously sends single messages to the Segment tracking
