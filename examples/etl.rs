@@ -1,7 +1,7 @@
 //! An example showing how to do an ETL-like operation loading events into
 //! Segment.
 
-use segment::message::{BatchMessage, Track, User};
+use segment::message::{Track, User};
 use segment::{Batcher, Client, HttpClient};
 use serde_json::json;
 
@@ -15,7 +15,7 @@ async fn main() {
     // Pretend this is reading off of a queue, a file, or some other data
     // source.
     for i in 0..100 {
-        let msg = BatchMessage::Track(Track {
+        let msg = Track {
             user: User::UserId {
                 user_id: format!("user-{}", i),
             },
@@ -24,7 +24,7 @@ async fn main() {
                 "foo": format!("bar-{}", i),
             }),
             ..Default::default()
-        });
+        };
 
         // An error here indicates a message is too large. In real life, you
         // would probably want to put this message in a deadletter queue or some

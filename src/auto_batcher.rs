@@ -26,12 +26,12 @@ use crate::{
 /// let mut batcher = AutoBatcher::new(client, batcher, "your_write_key".to_string());
 ///
 /// for i in 0..100 {
-///     let msg = BatchMessage::Track(Track {
+///     let msg = Track {
 ///         user: User::UserId { user_id: format!("user-{}", i) },
 ///         event: "Example".to_owned(),
 ///         properties: json!({ "foo": "bar" }),
 ///         ..Default::default()
-///     });
+///     };
 ///
 ///     batcher.push(msg); // .await
 /// }
@@ -92,7 +92,7 @@ impl AutoBatcher {
     ///
     /// batcher.push(msg); // .await
     /// ```
-    pub async fn push(&mut self, msg: BatchMessage) -> Result<()> {
+    pub async fn push(&mut self, msg: impl Into<BatchMessage>) -> Result<()> {
         if let Some(msg) = self.batcher.push(msg)? {
             self.flush().await?;
             // this can't return None: the batcher is empty and if the message is

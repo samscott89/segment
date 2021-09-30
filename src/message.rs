@@ -317,6 +317,38 @@ impl Default for User {
     }
 }
 
+macro_rules! into {
+    (from $from:ident into $for:ident) => {
+        impl From<$from> for $for {
+            fn from(message: $from) -> Self {
+                Self::$from(message)
+            }
+        }
+    };
+    ($(from $from:ident into $for:ident),+ $(,)?) => {
+        $( // here we iterate element per element to avoid recursion
+            into!{from $from into $for}
+        )+
+    };
+}
+
+into! {
+    from Identify into Message,
+    from Track into Message,
+    from Page into Message,
+    from Screen into Message,
+    from Group into Message,
+    from Alias into Message,
+    from Batch into Message,
+
+    from Identify into BatchMessage,
+    from Track into BatchMessage,
+    from Page into BatchMessage,
+    from Screen into BatchMessage,
+    from Group into BatchMessage,
+    from Alias into BatchMessage,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
