@@ -1,6 +1,6 @@
 [package]
 authors = ["Tamo <tamo@meilisearch.com", "Dean Karn <dean@segment.com>", "Ulysse Carion <ulysse@segment.com>"]
-description = "Segment analytics client for Rust. Forked for [Meilisearch](https://github.com/meilisearch)"
+description = "Segment analytics client for Rust. Forked for Meilisearch: https://github.com/meilisearch"
 edition = "2018"
 license = "MIT"
 keywords = ["meilisearch", "analytics", "segment"]
