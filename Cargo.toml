@@ -1,5 +1,5 @@
 [package]
-authors = ["Dean Karn <dean@segment.com>","Ulysse Carion <ulysse@segment.com>"]
+authors = ["Tamo <tamo@meilisearch.com", "Dean Karn <dean@segment.com>", "Ulysse Carion <ulysse@segment.com>"]
 description = "Segment analytics client for Rust https://segment.com/docs/libraries/rust"
 edition = "2018"
 license = "MIT"
