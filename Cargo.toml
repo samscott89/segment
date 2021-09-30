@@ -1,10 +1,11 @@
 [package]
 authors = ["Tamo <tamo@meilisearch.com", "Dean Karn <dean@segment.com>", "Ulysse Carion <ulysse@segment.com>"]
-description = "Segment analytics client for Rust https://segment.com/docs/libraries/rust"
+description = "Segment analytics client for Rust. Forked for [Meilisearch](https://github.com/meilisearch)"
 edition = "2018"
 license = "MIT"
+keywords = ["meilisearch", "analytics", "segment"]
 name = "segment"
-version = "0.2.0"
+version = "0.1.0"
 readme = "README.md"
 
 [dependencies]
