@@ -7,8 +7,7 @@
 //!
 //! ### Simple
 //! ```rust
-//! use segment::http::HttpClient;
-//! use segment::client::Client;
+//! use segment::{Client, HttpClient};
 //! use segment::message::{Track, Message, User};
 //! use serde_json::json;
 //!
@@ -30,10 +29,8 @@
 //!
 //! ### ETL-Like
 //! ```rust
-//! use segment::http::HttpClient;
-//! use segment::client::Client;
+//! use segment::{Batcher, Client, HttpClient};
 //! use segment::message::{BatchMessage, Track, User};
-//! use segment::batcher::Batcher;
 //! use serde_json::json;
 //!
 //! fn main() {
@@ -68,10 +65,15 @@
 //! ```
 
 mod auto_batcher;
-pub mod batcher;
-pub mod client;
-pub mod errors;
-pub mod http;
+mod batcher;
+mod client;
+mod errors;
+mod http;
 pub mod message;
 
 pub use auto_batcher::AutoBatcher;
+pub use batcher::Batcher;
+pub use client::Client;
+pub use errors::{Error, Result};
+pub use http::HttpClient;
+pub use message::Message;

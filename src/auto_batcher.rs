@@ -17,9 +17,7 @@ use crate::{
 /// The recommended usage pattern looks something like this:
 ///
 /// ```
-/// use segment::AutoBatcher;
-/// use segment::batcher::Batcher;
-/// use segment::http::HttpClient;
+/// use segment::{AutoBatcher, Batcher, HttpClient};
 /// use segment::message::{BatchMessage, Track, User};
 /// use serde_json::json;
 ///
@@ -56,12 +54,10 @@ impl AutoBatcher {
     /// Construct a new, empty batcher.
     ///
     /// ```
-    /// use segment::AutoBatcher;
-    /// use segment::batcher::Batcher;
-    /// use segment::http::HttpClient;
+    /// use segment::{AutoBatcher, Batcher, HttpClient};
     ///
     /// let client = HttpClient::default();
-    /// let batcher= Batcher::new(None);
+    /// let batcher = Batcher::new(None);
     /// let mut batcher = AutoBatcher::new(client, batcher, "your_write_key".to_string());
     /// ```
     pub fn new(client: HttpClient, batcher: Batcher, key: String) -> Self {
@@ -79,16 +75,16 @@ impl AutoBatcher {
     /// API.
     ///
     /// ```
-    /// use segment::AutoBatcher;
-    /// use segment::batcher::Batcher;
-    /// use segment::http::HttpClient;
+    /// use serde_json::json;
+    /// use segment::{AutoBatcher, Batcher, HttpClient};
+    /// use segment::message::{BatchMessage, Track, User};
     ///
     /// let client = HttpClient::default();
-    /// let batcher= Batcher::new(None);
+    /// let batcher = Batcher::new(None);
     /// let mut batcher = AutoBatcher::new(client, batcher, "your_write_key".to_string());
     ///
     /// let msg = BatchMessage::Track(Track {
-    ///     user: User::UserId { user_id: format!("user-{}", i) },
+    ///     user: User::UserId { user_id: String::from("user") },
     ///     event: "Example".to_owned(),
     ///     properties: json!({ "foo": "bar" }),
     ///     ..Default::default()
@@ -112,16 +108,16 @@ impl AutoBatcher {
     /// Returns an error if the message is too large to be sent to Segment's
     /// API.
     /// ```
-    /// use segment::AutoBatcher;
-    /// use segment::batcher::Batcher;
-    /// use segment::http::HttpClient;
+    /// use serde_json::json;
+    /// use segment::{AutoBatcher, Batcher, HttpClient};
+    /// use segment::message::{BatchMessage, Track, User};
     ///
     /// let client = HttpClient::default();
-    /// let batcher= Batcher::new(None);
+    /// let batcher = Batcher::new(None);
     /// let mut batcher = AutoBatcher::new(client, batcher, "your_write_key".to_string());
     ///
     /// let msg = BatchMessage::Track(Track {
-    ///     user: User::UserId { user_id: format!("user-{}", i) },
+    ///     user: User::UserId { user_id: String::from("user") },
     ///     event: "Example".to_owned(),
     ///     properties: json!({ "foo": "bar" }),
     ///     ..Default::default()

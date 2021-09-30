@@ -1,10 +1,8 @@
 //! An example showing how to do an ETL-like operation loading events into
 //! Segment.
 
-use segment::batcher::Batcher;
-use segment::client::Client;
-use segment::http::HttpClient;
 use segment::message::{BatchMessage, Track, User};
+use segment::{Batcher, Client, HttpClient};
 use serde_json::json;
 
 #[tokio::main(flavor = "current_thread")]

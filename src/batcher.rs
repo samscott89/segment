@@ -1,7 +1,7 @@
 //! Utilities for batching up messages.
 
-use crate::errors::{Error, Result};
 use crate::message::{Batch, BatchMessage, Message};
+use crate::{Error, Result};
 use serde_json::{Map, Value};
 
 const MAX_MESSAGE_SIZE: usize = 1024 * 32;
@@ -13,9 +13,7 @@ const MAX_BATCH_SIZE: usize = 1024 * 512;
 /// The recommended usage pattern looks something like this:
 ///
 /// ```
-/// use segment::batcher::Batcher;
-/// use segment::client::Client;
-/// use segment::http::HttpClient;
+/// use segment::{Batcher, Client, HttpClient};
 /// use segment::message::{BatchMessage, Track, User};
 /// use serde_json::json;
 ///

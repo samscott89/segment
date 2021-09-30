@@ -1,8 +1,7 @@
 //! An example showing how to send a single event to Segment.
 
-use segment::client::Client;
-use segment::http::HttpClient;
 use segment::message::{Message, Track, User};
+use segment::{Client, HttpClient};
 use serde_json::json;
 
 #[tokio::main(flavor = "current_thread")]

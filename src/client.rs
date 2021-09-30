@@ -1,7 +1,6 @@
 //! Interfaces to the Segment tracking API.
 
-use crate::errors::Result;
-use crate::message::Message;
+use crate::{Message, Result};
 
 /// `Client` is a trait representing the HTTP transport layer of the analytics library.
 #[async_trait::async_trait]
