@@ -3,6 +3,7 @@ authors = ["Tamo <tamo@meilisearch.com", "Dean Karn <dean@segment.com>", "Ulysse
 description = "Segment analytics client for Rust. Forked for Meilisearch: https://github.com/meilisearch"
 edition = "2018"
 license = "MIT"
+repository = "https://github.com/irevoire/segment"
 keywords = ["meilisearch", "analytics", "segment"]
 name = "segment"
 version = "0.1.1"
