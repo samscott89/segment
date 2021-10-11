@@ -278,6 +278,19 @@ pub enum BatchMessage {
     Alias(Alias),
 }
 
+impl BatchMessage {
+    pub(crate) fn timestamp_mut(&mut self) -> &mut Option<DateTime<Utc>> {
+        match self {
+            Self::Identify(identify) => &mut identify.timestamp,
+            Self::Track(track) => &mut track.timestamp,
+            Self::Page(page) => &mut page.timestamp,
+            Self::Screen(screen) => &mut screen.timestamp,
+            Self::Group(group) => &mut group.timestamp,
+            Self::Alias(alias) => &mut alias.timestamp,
+        }
+    }
+}
+
 /// User ID information.
 ///
 /// All Segment tracking API calls require a user ID, an anonymous ID, or both.

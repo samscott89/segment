@@ -2,6 +2,7 @@
 
 use crate::message::{Batch, BatchMessage, Message};
 use crate::{Error, Result};
+use chrono::Utc;
 use serde_json::{Map, Value};
 
 const MAX_MESSAGE_SIZE: usize = 1024 * 32;
@@ -48,11 +49,18 @@ const MAX_BATCH_SIZE: usize = 1024 * 512;
 ///
 /// If this delay is a concern, it is recommended that you periodically flush
 /// the batcher on your own by calling `into_message`.
+///
+/// By default if the message you push in the batcher does not contains any
+/// timestamp, the timestamp at the time of the push will be automatically
+/// added to your message.
+/// You can disable this behaviour with the [without_auto_timestamp] method
+/// though.
 #[derive(Clone)]
 pub struct Batcher {
     pub(crate) buf: Vec<BatchMessage>,
     pub(crate) byte_count: usize,
     pub(crate) context: Option<Value>,
+    pub(crate) auto_timestamp: bool,
 }
 
 impl Batcher {
@@ -65,7 +73,12 @@ impl Batcher {
             buf: Vec::new(),
             byte_count: 0,
             context,
+            auto_timestamp: true,
         }
+    }
+
+    pub fn without_auto_timestamp(&mut self) {
+        self.auto_timestamp = false;
     }
 
     /// Push a message into the batcher.
@@ -81,7 +94,11 @@ impl Batcher {
     /// Returns an error if the message is too large to be sent to Segment's
     /// API.
     pub fn push(&mut self, msg: impl Into<BatchMessage>) -> Result<Option<BatchMessage>> {
-        let msg: BatchMessage = msg.into();
+        let mut msg: BatchMessage = msg.into();
+        let timestamp = msg.timestamp_mut();
+        if self.auto_timestamp && timestamp.is_none() {
+            *timestamp = Some(Utc::now());
+        }
         let size = serde_json::to_vec(&msg)?.len();
         if size > MAX_MESSAGE_SIZE {
             return Err(Error::MessageTooLarge);
@@ -125,6 +142,7 @@ mod tests {
         });
 
         let mut batcher = Batcher::new(Some(context.clone()));
+        batcher.without_auto_timestamp();
         let result = batcher.push(batch_msg.clone());
         assert_eq!(None, result.ok().unwrap());
 
@@ -165,6 +183,7 @@ mod tests {
         };
 
         let mut batcher = Batcher::new(None);
+        batcher.without_auto_timestamp();
         let mut result = Ok(None);
         for _i in 0..20 {
             result = batcher.push(batch_msg.clone());
