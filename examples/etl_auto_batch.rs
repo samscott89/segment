@@ -15,12 +15,12 @@ async fn main() {
 
     // Pretend this is reading off of a queue, a file, or some other data
     // source.
-    for i in 0..100 {
+    for i in 0..10 {
         let msg = Track {
             user: User::UserId {
                 user_id: format!("user-{}", i),
             },
-            event: "Batched Event".to_owned(),
+            event: "Auto batched Event".to_owned(),
             properties: json!({
                 "foo": format!("bar-{}", i),
             }),
