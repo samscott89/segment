@@ -33,7 +33,7 @@ use serde_json::{Map, Value};
 use time::OffsetDateTime;
 
 /// An enum containing all values which may be sent to Segment's tracking API.
-#[derive(PartialEq, Debug, Clone, Serialize, Deserialize)]
+#[derive(PartialEq, Eq, Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum Message {
     Identify(Identify),
@@ -49,7 +49,7 @@ pub enum Message {
 ///
 /// See [Segment's documentation](https://segment.com/docs/spec/identify/) for
 /// how to use `identify` events.
-#[derive(PartialEq, Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(PartialEq, Eq, Debug, Clone, Serialize, Deserialize, Default)]
 pub struct Identify {
     /// The user associated with this message.
     #[serde(flatten)]
@@ -82,7 +82,7 @@ pub struct Identify {
 ///
 /// See [Segment's documentation](https://segment.com/docs/spec/track/) for
 /// how to use `track` events.
-#[derive(PartialEq, Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(PartialEq, Eq, Debug, Clone, Serialize, Deserialize, Default)]
 pub struct Track {
     /// The user associated with this message.
     #[serde(flatten)]
@@ -118,7 +118,7 @@ pub struct Track {
 ///
 /// See [Segment's documentation](https://segment.com/docs/spec/page/) for how
 /// to use `page` events.
-#[derive(PartialEq, Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(PartialEq, Eq, Debug, Clone, Serialize, Deserialize, Default)]
 pub struct Page {
     /// The user associated with this message.
     #[serde(flatten)]
@@ -154,7 +154,7 @@ pub struct Page {
 ///
 /// See [Segment's documentation](https://segment.com/docs/spec/screen/) for how
 /// to use `screen` events.
-#[derive(PartialEq, Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(PartialEq, Eq, Debug, Clone, Serialize, Deserialize, Default)]
 pub struct Screen {
     /// The user associated with this message.
     #[serde(flatten)]
@@ -190,7 +190,7 @@ pub struct Screen {
 ///
 /// See [Segment's documentation](https://segment.com/docs/spec/group/) for how
 /// to use `group` events.
-#[derive(PartialEq, Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(PartialEq, Eq, Debug, Clone, Serialize, Deserialize, Default)]
 pub struct Group {
     /// The user associated with this message.
     #[serde(flatten)]
@@ -227,7 +227,7 @@ pub struct Group {
 ///
 /// See [Segment's documentation](https://segment.com/docs/spec/alias/) for how
 /// to use `alias` events.
-#[derive(PartialEq, Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(PartialEq, Eq, Debug, Clone, Serialize, Deserialize, Default)]
 pub struct Alias {
     /// The user associated with this message.
     #[serde(flatten)]
@@ -262,7 +262,7 @@ pub struct Alias {
 /// See [Segment's
 /// documentation](https://segment.com/docs/sources/server/http/#batch) for how
 /// to send batches of events.
-#[derive(PartialEq, Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(PartialEq, Eq, Debug, Clone, Serialize, Deserialize, Default)]
 pub struct Batch {
     /// The batch of messages to send.
     pub batch: Vec<BatchMessage>,
@@ -281,7 +281,7 @@ pub struct Batch {
 }
 
 /// An enum containing all messages which may be placed inside a batch.
-#[derive(PartialEq, Debug, Clone, Serialize, Deserialize)]
+#[derive(PartialEq, Eq, Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
 pub enum BatchMessage {
     #[serde(rename = "identify")]
@@ -317,7 +317,7 @@ impl BatchMessage {
 /// See [Segment's
 /// documentation](https://segment.com/docs/spec/identify/#identities) for how
 /// user IDs and anonymous IDs should be used.
-#[derive(PartialEq, Debug, Clone, Serialize, Deserialize)]
+#[derive(PartialEq, Eq, Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum User {
     /// The user is identified only by a user ID.
