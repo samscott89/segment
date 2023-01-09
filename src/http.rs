@@ -10,7 +10,7 @@ use std::time::Duration;
 ///
 /// `HttpClient` implements [`Client`](../client/trait.Client.html); see the
 /// documentation for `Client` for more on how to send events to Segment.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct HttpClient {
     client: reqwest::Client,
     host: String,

@@ -55,7 +55,7 @@ const MAX_BATCH_SIZE: usize = 1024 * 512;
 /// added to your message.
 /// You can disable this behaviour with the [without_auto_timestamp] method
 /// though.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Batcher {
     pub(crate) buf: Vec<BatchMessage>,
     pub(crate) byte_count: usize,
