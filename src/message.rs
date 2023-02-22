@@ -126,7 +126,7 @@ pub struct Page {
     pub user: User,
 
     /// The name of the page being tracked.
-    pub name: String,
+    pub name: Option<String>,
 
     /// The properties associated with the event.
     pub properties: Value,
@@ -443,7 +443,7 @@ mod tests {
                     user_id: "foo".to_owned(),
                     anonymous_id: "bar".to_owned()
                 },
-                name: "Foo".to_owned(),
+                name: Some("Foo".to_owned()),
                 properties: json!({
                     "foo": "bar",
                     "baz": "quux",
