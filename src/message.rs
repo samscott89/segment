@@ -34,7 +34,8 @@ use time::OffsetDateTime;
 
 /// An enum containing all values which may be sent to Segment's tracking API.
 #[derive(PartialEq, Eq, Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
+#[serde(rename_all = "snake_case")]
+#[serde(tag = "type")]
 pub enum Message {
     Identify(Identify),
     Track(Track),
