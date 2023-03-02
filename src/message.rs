@@ -35,7 +35,7 @@ use time::OffsetDateTime;
 /// An enum containing all values which may be sent to Segment's tracking API.
 #[derive(PartialEq, Eq, Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
-#[serde(tag = "type")]
+#[serde(untagged)]
 pub enum Message {
     Identify(Identify),
     Track(Track),
@@ -44,6 +44,48 @@ pub enum Message {
     Group(Group),
     Alias(Alias),
     Batch(Batch),
+}
+
+impl Message {
+    pub fn path(&self) -> &'static str {
+        match self {
+            Message::Identify(_) => "/v1/identify",
+            Message::Track(_) => "/v1/track",
+            Message::Page(_) => "/v1/page",
+            Message::Screen(_) => "/v1/screen",
+            Message::Group(_) => "/v1/group",
+            Message::Alias(_) => "/v1/alias",
+            Message::Batch(_) => "/v1/batch",
+        }
+    }
+}
+
+/// An enum containing all values which may be sent to Segment's tracking API.
+#[derive(PartialEq, Eq, Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+#[serde(tag = "type")]
+pub enum StoredMessage {
+    Identify(Identify),
+    Track(Track),
+    Page(Page),
+    Screen(Screen),
+    Group(Group),
+    Alias(Alias),
+    Batch(Batch),
+}
+
+impl From<StoredMessage> for Message {
+    fn from(other: StoredMessage) -> Message {
+        match other {
+            StoredMessage::Identify(i) => Message::Identify(i),
+            StoredMessage::Track(t) => Message::Track(t),
+            StoredMessage::Page(p) => Message::Page(p),
+            StoredMessage::Screen(s) => Message::Screen(s),
+            StoredMessage::Group(g) => Message::Group(g),
+            StoredMessage::Alias(a) => Message::Alias(a),
+            StoredMessage::Batch(b) => Message::Batch(b),
+        }
+    }
 }
 
 /// An identify event.
